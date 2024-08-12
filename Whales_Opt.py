@@ -29,7 +29,7 @@ def whale_optimization(system_model, num_iterations, num_whales, K, NR, NH, P_ma
     best_solution = None
     best_data_rate = -np.inf
 
-    results = []
+    # results = []
 
     for i in range(num_iterations):
         for whale in whales:
@@ -60,15 +60,37 @@ def whale_optimization(system_model, num_iterations, num_whales, K, NR, NH, P_ma
                 best_N_H_k - A * D_N_H_k
             )
 
-        # Enregistrer les résultats
-        results.append({
+        # Créer un dictionnaire pour stocker les résultats
+        results = {
             'Iteration': i + 1,
-            'Theta': best_solution[1],
             'P': best_solution[0],
-            'N_R_k': best_solution[2],
-            'N_H_k': best_solution[3],
             'DataRates': best_data_rate
-        })
+        }
+        
+        # Ajouter les informations de Theta
+        for idx, theta_val in enumerate(best_solution[1]):
+            results[f'Theta_{idx}'] = theta_val
+
+        # Ajouter les informations de N_R_k
+        for idx, n_r_k_val in enumerate(best_solution[2]):
+            results[f'N_R_k_{idx}'] = n_r_k_val
+
+        # Ajouter les informations de N_H_k
+        for idx, n_h_k_val in enumerate(best_solution[3]):
+            results[f'N_H_k_{idx}'] = n_h_k_val
+
+        # Enregistrer les résultats
+        results.append(results)
+
+        # # Enregistrer les résultats
+        # results.append({
+        #     'Iteration': i + 1,
+        #     'Theta': best_solution[1],
+        #     'P': best_solution[0],
+        #     'N_R_k': best_solution[2],
+        #     'N_H_k': best_solution[3],
+        #     'DataRates': best_data_rate
+        # })
 
     return best_solution, best_data_rate, results
 
@@ -84,24 +106,25 @@ NH = system_model['NH']
 P_max = system_model['P_max']
 
 best_solution, best_data_rate, results = whale_optimization(system_model, num_iterations, num_whales, K, NR, NH, P_max)
+# best_solution, best_data_rate = whale_optimization(system_model, num_iterations, num_whales, K, NR, NH, P_max)
 P, Theta, N_R_k, N_H_k = best_solution
-print(type(results[Theta]), type(results[P]), type(results[N_R_k]), type(results[N_H_k]), type(results[best_data_rate]))
+# print(type(results[Theta]), type(results[P]), type(results[N_R_k]), type(results[N_H_k]), type(results[best_data_rate]))
 
 
 # Préparation des données pour le DataFrame
-data = {
-    'Iteration': [result['Iteration'] for result in results],
-    'Theta': [result['Theta'] for result in results],
-    'P': [result['P'] for result in results],
-    'N_R_k': [result['N_R_k'] for result in results],
-    'N_H_k': [result['N_H_k'] for result in results],
-    'DataRates': [result['DataRates'] for result in results]
-}
-
+# data = {
+#     'Iteration': [result['Iteration'] for result in results],
+#     'Theta': [result['Theta'] for result in results],
+#     'P': [result['P'] for result in results],
+#     'N_R_k': [result['N_R_k'] for result in results],
+#     'N_H_k': [result['N_H_k'] for result in results],
+#     'DataRates': [result['DataRates'] for result in results]
+# }
 
 
 # Création du DataFrame
-df = pd.DataFrame(data)
+df = pd.DataFrame(results)
+print(results)
 
 # Sauvegarde dans un fichier Excel
 df.to_excel('whales_optimization_results.xlsx', index=False)
