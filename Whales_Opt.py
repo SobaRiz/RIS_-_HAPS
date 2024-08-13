@@ -29,7 +29,9 @@ def whale_optimization(system_model, num_iterations, num_whales, K, NR, NH, P_ma
     best_solution = None
     best_data_rate = -np.inf
 
-    # results = []
+    # Initialisation d'une liste pour stocker les résultats de chaque itération
+    results_list = []
+
 
     for i in range(num_iterations):
         for whale in whales:
@@ -80,7 +82,7 @@ def whale_optimization(system_model, num_iterations, num_whales, K, NR, NH, P_ma
             results[f'N_H_k_{idx}'] = n_h_k_val
 
         # Enregistrer les résultats
-        results.append(results)
+        results_list.append(results)
 
         # # Enregistrer les résultats
         # results.append({
@@ -92,7 +94,7 @@ def whale_optimization(system_model, num_iterations, num_whales, K, NR, NH, P_ma
         #     'DataRates': best_data_rate
         # })
 
-    return best_solution, best_data_rate, results
+    return best_solution, best_data_rate, results_list
 
 
 # Exécution de l'optimisation par les baleines
@@ -130,7 +132,8 @@ print(results)
 df.to_excel('whales_optimization_results.xlsx', index=False)
 
 # Ajouter une ligne pour la moyenne des DataRates
-df.loc['Average'] = df.mean()
+average_data_rates = df['DataRates'].mean()
+df.loc[len(df.index)] = ['Average'] + [None] * (df.shape[1] - 2) + [average_data_rates]
 
 print("Les résultats ont été sauvegardés dans 'whales_optimization_results.xlsx'.")
 
@@ -159,3 +162,32 @@ ax4.legend()
 plt.tight_layout()
 plt.show()
 
+# =============================================================================
+# TEST - Distribution des décalages de phase par utilisateur
+cumulative_index = 0
+for k, n_r_k in enumerate(best_solution[2]):  # best_solution[2] corresponds to N_R_k
+    n_r_k = int(n_r_k)  # Conversion en entier
+    end_index = cumulative_index + n_r_k
+    plt.plot(range(cumulative_index + 1, end_index + 1), best_solution[1][cumulative_index:end_index], 
+             marker='o', linestyle='-', label=f'Utilisateur {k + 1}')
+    cumulative_index = end_index
+
+plt.xlabel('Éléments réflecteurs')
+plt.ylabel('Phase shift (Theta) en radians')
+plt.title('Distribution des décalages de phase par utilisateur')
+plt.legend()
+plt.show()
+# =============================================================================
+
+# =============================================================================
+# TEST - Évolution des débits de données au cours des itérations
+iterations = [result['Iteration'] for result in results]
+data_rates = [result['DataRates'] for result in results]
+
+plt.plot(iterations, data_rates, marker='o', linestyle='-', color='g', label='Débits de données')
+plt.xlabel('Itérations')
+plt.ylabel('Débits de données (Mbps)')
+plt.title('Évolution des débits de données au cours des itérations')
+plt.legend()
+plt.show()
+# =============================================================================
