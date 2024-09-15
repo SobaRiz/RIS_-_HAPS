@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Jul 27 16:14:48 2024
-
-@author: Artémis
-"""
 
 import numpy as np
-from Principal import calculate_data_rates_SNR, negative_sum_rate_theta_fixed_SNR
+from Principal import calculate_data_rates_SNR
 import json
 import matplotlib.pyplot as plt
 # from mpl_toolkits.mplot3d import Axes3D
 import pandas as pd
+import time
+
+
+
+
+start_time = time.time()
+
+
 
 # Chargement du fichier JSON
 with open('json_datas.json', 'r') as f:
@@ -157,3 +160,13 @@ ax4.legend()
 
 plt.tight_layout()
 plt.show()
+
+
+# =============================================================================
+# TIME
+# =============================================================================
+end_time = time.time()
+
+# Create new file to put information on it
+with open("Random_Opt_time.txt", "w") as file:
+    file.write(f"{end_time}")
