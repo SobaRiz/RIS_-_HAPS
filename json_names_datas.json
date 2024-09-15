@@ -1,0 +1,15 @@
+{
+  "K": 2,                // Nombre d'utilisateurs ou de canaux (unités sans dimension)
+  "NR": 100,             // Nombre total d'éléments réflecteurs (unités sans dimension)
+  "NH": 100,             // Nombre total d'éléments dans l'antenne (unités sans dimension)
+  "B": 20000000,         // Largeur de bande (en Hertz, Hz)
+  "N0": 1e-10,           // Densité spectrale de bruit (en watts par Hertz, W/Hz)
+  "R_th": 1000000,       // Seuil minimal de débit de données (en bits par seconde, bps)
+  "P_max": 0.6,          // Puissance maximale transmise par l'antenne (en watts, W)
+  "m": 1.5,              // Coefficient de distribution Nakagami (unités sans dimension)
+  "GH": 39.7,            // Gain de l'antenne réceptrice (en décibels, dB)
+  "c": 300000000,        // Vitesse de la lumière (en mètres par seconde, m/s)
+  "dRH": 20000,          // Distance entre l'émetteur et le récepteur via l'élément réflecteur (en mètres, m)
+  "fc": 2000000000,      // Fréquence porteuse (en Hertz, Hz)
+  "Nbr_It": 300          // Nombre d'itérations pour l'algorithme d'optimisation (unités sans dimension)
+}
