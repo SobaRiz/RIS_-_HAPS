@@ -1,11 +1,9 @@
 # RIS_-_HAPS
 Will have some modifications later
 
-# =============================================================================
 # Liens et explications
-# =============================================================================
 
-Liste des fichiers :
+## Liste des fichiers :
   json_datas.json :
     [Opérationnel]
     Ce fichier contient toutes les constantes redondantes au sein des codes suivants. Il est l'unique fichier qui sera modifié lors des tests.
@@ -22,7 +20,7 @@ Liste des fichiers :
     [Absolument pas Opérationnel]
     Ce code permet de regrouper les valeurs des temps d'éxécutions des différents codes dans un seul graphique.
 
-Lien entre les fichiers :
+## Lien entre les fichiers :
 json_datas -> n'appel personne
 Principal -> appel json
 Random -> appel json, principal
@@ -35,9 +33,8 @@ Random --------> Json <-------- Whales
   ↑                               ↑
   |------------- Time ------------|
 
-# =============================================================================
+
 # Définition des mots clés
-# =============================================================================
 
 **Antenne** : Un dispositif utilisé pour transmettre ou recevoir des signaux électromagnétiques.
 
