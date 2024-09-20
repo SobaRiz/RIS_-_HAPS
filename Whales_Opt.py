@@ -8,9 +8,33 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from Principal import calculate_data_rates_SNR, negative_sum_rate_theta_fixed_SNR
 
+# =============================================================================
+# Ce code sert à mettre en place la méthode d'optimisation des baleines avec les composants SNR présent dans le fichier "Principal.py"
+
+# MOTS CLES (définition à retrouver dans le READ.ME):
+# ----------------------------------------------------
+    # Whales optimisation
+    # SNR (Signal-to-Noise Ratio)
+    # Theta (phases ajustables)
+    # RIS (Reconfigurable Intelligent Surfaces)
+    # éléments RIS (éléments dans une surface intelligente reconfigurable)
+    # HAPS (High Altitude Platform Station)
+    # débits de données
+    # Phase shift (décalage de phase en radians)
+    # Population de baleines
+    # NR (nombre d'éléments réfléchissants dans le RIS)
+    # NH (nombre d'antennes à HAPS)
+    # P_max (puissance maximale de transmission pour chaque utilisateur)
+    # Meilleures valeurs de P (puissances optimisées)
+# =============================================================================
+
 # Charger le modèle de système à partir d'un fichier JSON
 with open('json_datas.json', 'r') as f:
     system_model = json.load(f)
+
+# Évalue la solution en utilisant le modèle du système
+def evaluate_solution(system_model, P, Theta, N_R_k, N_H_k):
+    return calculate_data_rates_SNR(system_model, P, Theta, N_R_k, N_H_k)
 
 # Génère une solution aléatoire pour le modèle du système
 def generate_random_solution(K, NR, NH, P_max):
@@ -20,11 +44,9 @@ def generate_random_solution(K, NR, NH, P_max):
     N_H_k = np.random.randint(1, NH + 1, K)  # Attribution aléatoire du nombre d'éléments d'antenne à chaque utilisateur
     return P, Theta, N_R_k, N_H_k
 
-# Évalue la solution en utilisant le modèle du système
-def evaluate_solution(system_model, P, Theta, N_R_k, N_H_k):
-    return calculate_data_rates_SNR(system_model, P, Theta, N_R_k, N_H_k)
-
+# =============================================================================
 # Algorithme de l'optimisation par les baleines
+# =============================================================================
 def whale_optimization(system_model, num_iterations, num_whales, K, NR, NH, P_max):
     # Initialisation de la population de baleines avec des solutions aléatoires
     whales = [generate_random_solution(K, NR, NH, P_max) for _ in range(num_whales)]
@@ -92,7 +114,10 @@ def whale_optimization(system_model, num_iterations, num_whales, K, NR, NH, P_ma
 
     return best_solution, best_data_rate, results_list
 
-# Exécution de l'optimisation par les baleines
+# =============================================================================
+# Exécution de l'optimisation
+# =============================================================================
+
 num_whales = 30
 num_iterations = system_model['Nbr_It']
 K = system_model['K']
@@ -119,7 +144,8 @@ df.loc[len(df.index)] = ['Average'] + [None] * (df.shape[1] - 2) + [average_data
 print("Les résultats ont été sauvegardés dans 'whales_optimization_results.xlsx'.")
 
 # =============================================================================
-
+# REPRESENTATIONS
+# =============================================================================
 
 # # Plot des valeurs de P après optimisation
 # plt.figure(figsize=(10, 6))
