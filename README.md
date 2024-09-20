@@ -38,9 +38,13 @@ Whales -> appel json, principal
 Time -> appel random, whales
 
   |----------> Principal <---------|
+
   ↑               ↓                ↑
+
 Random --------> Json <-------- Whales
+
   ↑                               ↑
+
   |------------- Time ------------|
 
 
